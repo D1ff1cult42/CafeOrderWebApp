@@ -1,0 +1,3 @@
+rootProject.name = "WebAppMicroservices"
+
+include 'common', 'menu-service', 'order-service', 'payment-service', 'api-gateway'

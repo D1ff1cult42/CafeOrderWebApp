@@ -1,0 +1,25 @@
+# Environment variables (contains secrets)
+.env
+
+# JWT Keys
+jwt-private.pem
+jwt-public.pem
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
