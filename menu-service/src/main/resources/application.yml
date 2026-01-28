@@ -1,0 +1,45 @@
+server:
+  port: 8081
+
+spring:
+    web:
+      throw-exception-if-no-handler-found: true
+      resources:
+        add-mappings: true
+    application:
+      name: menu-service
+
+    datasource:
+      url: ${SPRING_DATASOURCE_URL}
+      username: ${SPRING_DATASOURCE_USERNAME}
+      password: ${SPRING_DATASOURCE_PASSWORD}
+      driver-class-name: org.postgresql.Driver
+
+    jpa:
+      hibernate:
+        ddl-auto: validate
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+
+    flyway:
+      enabled: true
+      locations: classpath:db/migration
+      baseline-on-migrate: true
+      validate-on-migrate: false
+
+
+exceptions:
+  message:
+    not-found: Menu item with id %s not found.
+    already-exists: Menu item with name '%s' already exists.
+
+grpc:
+    server:
+        port: 9090
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
