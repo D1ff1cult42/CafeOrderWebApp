@@ -1,0 +1,5 @@
+ALTER TABLE orders
+    ADD created_at TIMESTAMP WITHOUT TIME ZONE;
+
+ALTER TABLE orders
+    ADD updated_at TIMESTAMP WITHOUT TIME ZONE;
