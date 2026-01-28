@@ -9,9 +9,9 @@ spring:
   application:
     name: payment-service
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/payment_db}
-    username: ${SPRING_DATASOURCE_USERNAME:admin}
-    password: ${SPRING_DATASOURCE_PASSWORD:admin}
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -27,7 +27,7 @@ spring:
     locations: classpath:db/migration
     validate-on-migrate: false
   kafka:
-    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS}
     topic:
       payment-events: payment-events
       order-events: order-events
@@ -40,12 +40,12 @@ payment:
   yookassa:
     shop-id: ${YOOKASSA_SHOP_ID}
     secret-key: ${YOOKASSA_SECRET_KEY}
-    api-url: ${YOOKASSA_API_URL:https://api.yookassa.ru/v3}
+    api-url: ${YOOKASSA_API_URL}
 
 grpc:
   client:
     order-service:
-      address: ${ORDER_SERVICE_GRPC_ADDRESS:static://localhost:9091}
+      address: ${ORDER_SERVICE_GRPC_ADDRESS}
       negotiation-type: plaintext
 
 logging:
