@@ -1,0 +1,86 @@
+server:
+  port: 8080
+
+auth:
+  service:
+    url: ${AUTH_SERVICE_URL}
+
+order:
+  service:
+    url: ${ORDER_SERVICE_URL}
+
+payment:
+  service:
+    url: ${PAYMENT_SERVICE_URL}
+
+menu:
+  service:
+    url: ${MENU_SERVICE_URL}
+
+jwt:
+  public-key: ${JWT_PUBLIC_KEY}
+
+spring:
+  web:
+    resources:
+      add-mappings: false
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+            - id: auth-service
+              uri: ${auth.service.url}
+              predicates:
+                - Path=/auth/**
+              filters:
+                - StripPrefix=1
+                - name: CircuitBreaker
+                  args:
+                    id: authCircuitBreaker
+                    fallbackUri: forward:/fallback/auth
+
+            - id: menu-service
+              uri: ${menu.service.url}
+              predicates:
+                - Path=/menu/**
+              filters:
+                - StripPrefix=1
+                - name: CircuitBreaker
+                  args:
+                    id: menuCircuitBreaker
+                    fallbackUri: forward:/fallback/menu
+
+            - id: order-service
+              uri: ${order.service.url}
+              predicates:
+                - Path=/order/**
+              filters:
+                - StripPrefix=1
+                - name: CircuitBreaker
+                  args:
+                    id: orderCircuitBreaker
+                    fallbackUri: forward:/fallback/order
+
+            - id: payment-service
+              uri: ${payment.service.url}
+              predicates:
+                - Path=/payment/**
+              filters:
+                - StripPrefix=1
+                - name: CircuitBreaker
+                  args:
+                    id: paymentCircuitBreaker
+                    fallbackUri: forward:/fallback/payment
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.web.servlet.DispatcherServlet: DEBUG
+    org.springframework.security: DEBUG
