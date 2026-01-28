@@ -1,0 +1,61 @@
+server:
+  port: 8083
+
+spring:
+  web:
+    throw-exception-if-no-handler-found: true
+    resources:
+        add-mappings: false
+  application:
+    name: payment-service
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/payment_db}
+    username: ${SPRING_DATASOURCE_USERNAME:admin}
+    password: ${SPRING_DATASOURCE_PASSWORD:admin}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    validate-on-migrate: false
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    topic:
+      payment-events: payment-events
+      order-events: order-events
+
+
+payment:
+  kafka:
+    topic-payment-events: payment-events
+    topic-order-events: order-events
+  yookassa:
+    shop-id: ${YOOKASSA_SHOP_ID}
+    secret-key: ${YOOKASSA_SECRET_KEY}
+    api-url: ${YOOKASSA_API_URL:https://api.yookassa.ru/v3}
+
+grpc:
+  client:
+    order-service:
+      address: ${ORDER_SERVICE_GRPC_ADDRESS:static://localhost:9091}
+      negotiation-type: plaintext
+
+logging:
+  level:
+    org.example.paymentservice: DEBUG
+    org.springframework.web.reactive.function.client: DEBUG
+    io.netty.resolver.dns: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
