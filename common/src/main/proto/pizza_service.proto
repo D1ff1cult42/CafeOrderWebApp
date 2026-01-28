@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "org.example.common.grpc.pizza";
+option java_outer_classname = "PizzaServiceProto";
+
+package pizza;
+
+service PizzaService {
+  rpc GetPizzasPrices(GetPizzasPricesRequest) returns (GetPizzasPricesResponse);
+}
+
+message GetPizzasPricesRequest {
+  repeated int64 ids = 1;
+}
+
+message GetPizzasPricesResponse {
+  repeated PizzaPrice prices = 1;
+}
+
+message PizzaPrice {
+  int64 id = 1;
+  string price = 2;
+}
